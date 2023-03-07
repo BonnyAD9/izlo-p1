@@ -66,7 +66,10 @@ void each_subject_enrolled_at_most_once(
     for (size_t sub = 0; sub < num_of_subjects; ++sub) {
         for (size_t i = 0; i < num_of_semesters; ++i) {
             for (size_t j = i + 1; j < num_of_semesters; ++j) {
-                Clause *c = create_new_clause(num_of_subjects, num_of_semesters);
+                Clause *c = create_new_clause(
+                    num_of_subjects,
+                    num_of_semesters
+                );
                 add_literal_to_clause(c, false, sub, i);
                 add_literal_to_clause(c, false, sub, j);
             }
