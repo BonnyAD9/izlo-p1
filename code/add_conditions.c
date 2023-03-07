@@ -65,7 +65,7 @@ void each_subject_enrolled_at_most_once(
     // (x_1,0 ^ !x_1,1 ^ !x_1,2) v (!x_1,0 ^ x_1,1 ^ !x_1,2) v
     // (!x_1,0 ^ !x_1,1 ^ x_1,2) v
     // ...
-    // <=>
+    // <~> (it is already assumed that each subject is enrolled)
     // (!x_0,0 v !x_0,1) ^ (!x_0,0 v !x_0,2) ^ (!x_0,1 v !x_0,2) ^
     // (!x_1,0 v !x_1,1) ^ (!x_1,0 v !x_1,2) ^ (!x_1,1 v !x_1,2) ^
     // ...
@@ -109,7 +109,7 @@ void add_prerequisities_to_formula(
         // e = earlier, l = later
         // (x_l,3 ^ !x_e,3) v (x_l,2 ^ !x_e,3 ^ !x_e,2) v
         // (x_l,1 ^ !x_e,3 ^ !x_e,2 ^ !x_e,1)
-        // <=>
+        // <~> (it is already assumed that each subject is enrolled)
         // !x_e,3 ^ (!x_e,2 v x_l,3) ^ (!x_e,1 v x_l,3 v x_l,2)
         for (size_t i = num_of_semesters - 1; i > 0; --i) {
             Clause *c = create_new_clause(num_of_subjects, num_of_semesters);
