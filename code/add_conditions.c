@@ -61,6 +61,12 @@ void each_subject_enrolled_at_most_once(
     assert(num_of_subjects > 0);
     assert(num_of_semesters > 0);
 
+    // (x_0,0 ^ !x_0,1 ^ !x_0,2) v (!x_0,0 ^ x_0,1 ^ !x_0,2) v
+    // (!x_0,0 ^ !x_0,1 ^ x_0,2) v
+    // (x_1,0 ^ !x_1,1 ^ !x_1,2) v (!x_1,0 ^ x_1,1 ^ !x_1,2) v
+    // (!x_1,0 ^ !x_1,1 ^ x_1,2) v
+    // ...
+    // <=>
     // (!x_0,0 v !x_0,1) ^ (!x_0,0 v !x_0,2) ^ (!x_0,1 v !x_0,2) ^
     // (!x_1,0 v !x_1,1) ^ (!x_1,0 v !x_1,2) ^ (!x_1,1 v !x_1,2) ^
     // ...
@@ -102,6 +108,9 @@ void add_prerequisities_to_formula(
         // prerequisities[i].later_subject
 
         // e = earlier, l = later
+        // (x_l,3 ^ !x_e,3) v (x_l,2 ^ !x_e,3 ^ !x_e,2) v
+        // (x_l,1 ^ !x_e,3 ^ !x_e,2 ^ !x_e,1)
+        // <=>
         // !x_e,3 ^ (!x_e,2 v x_l,3) ^ (!x_e,1 v x_l,3 v x_l,2)
         for (size_t i = num_of_semesters - 1; i > 0; --i) {
             Clause *c = create_new_clause(num_of_subjects, num_of_semesters);
