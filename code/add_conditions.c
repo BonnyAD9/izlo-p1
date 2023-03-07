@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include "cnf.h"
+#include <stdint.h> // SIZE_MAX
 
 //
 // LOGIN: xstigl00
@@ -100,6 +101,25 @@ void add_prerequisities_to_formula(
         // student zapsat v nekterem semestru pred predmetem
         // prerequisities[i].later_subject
 
-        // ZDE PRIDAT KOD
+        // e = earlier, l = later
+        // !x_e,3 ^ (!x_e,2 v x_l,3) ^ (!x_e,1 v x_l,3 v x_l,2)
+        for (size_t i = num_of_semesters - 1; i > 0; --i) {
+            Clause *c = create_new_clause(num_of_subjects, num_of_semesters);
+            add_literal_to_clause(
+                c,
+                false,
+                prerequisities[i].earlier_subject,
+                i
+            );
+            for (size_t j = i + 1; j < num_of_semesters; ++j) {
+                add_literal_to_clause(
+                    c,
+                    true,
+                    prerequisities[i].later_subject,
+                    j
+                );
+            }
+            add_clause_to_formula(c, formula);
+        }
     }
 }
