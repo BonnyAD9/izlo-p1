@@ -1,6 +1,5 @@
 #include <stddef.h>
 #include "cnf.h"
-#include <stdint.h> // SIZE_MAX
 
 //
 // LOGIN: xstigl00
