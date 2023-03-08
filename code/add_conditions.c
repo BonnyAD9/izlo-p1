@@ -78,6 +78,7 @@ void each_subject_enrolled_at_most_once(
                 );
                 add_literal_to_clause(c, false, sub, i);
                 add_literal_to_clause(c, false, sub, j);
+                add_clause_to_formula(c, formula);
             }
         }
     }
