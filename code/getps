@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+num=$(( $2 - 1 ))
+echo $(( $num / $1 )),$(( $num % $1 ))
