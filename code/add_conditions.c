@@ -1,6 +1,5 @@
 #include <stddef.h>
 #include "cnf.h"
-#include <inttypes.h> // SIZE_MAX
 
 //
 // LOGIN: xstigl00
@@ -133,7 +132,14 @@ void add_prerequisities_to_formula(
             prerequisities[i].later_subject,
             num_of_semesters - 1
         );
-        for (long k = (long)num_of_semesters - 1; k > 0; --k) {
+
+        // avoid overflow
+        if (num_of_semesters == 1) {
+            add_clause_to_formula(l, formula);
+            return;
+        }
+
+        for (size_t k = num_of_semesters - 2; k > 0; --k) {
             // (!x_e,2 v x_l,3) ^ (!x_e,1 v x_l,3 v x_l,2)
             Clause *c = create_new_clause(num_of_subjects, num_of_semesters);
             add_literal_to_clause(
