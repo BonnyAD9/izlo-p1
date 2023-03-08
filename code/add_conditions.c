@@ -66,7 +66,7 @@ void each_subject_enrolled_at_most_once(
     // (x_1,0 ^ !x_1,1 ^ !x_1,2) v (!x_1,0 ^ x_1,1 ^ !x_1,2) v
     // (!x_1,0 ^ !x_1,1 ^ x_1,2) v
     // ...
-    // <~> (it is already assumed that each subject is enrolled)
+    // <~> (it is already assumed that each subject is enrolled at leas once)
     // (!x_0,0 v !x_0,1) ^ (!x_0,0 v !x_0,2) ^ (!x_0,1 v !x_0,2) ^
     // (!x_1,0 v !x_1,1) ^ (!x_1,0 v !x_1,2) ^ (!x_1,1 v !x_1,2) ^
     // ...
