@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include "cnf.h"
+#include <inttypes.h> // SIZE_MAX
 
 //
 // LOGIN: xstigl00
@@ -110,9 +111,30 @@ void add_prerequisities_to_formula(
         // e = earlier, l = later
         // (x_l,3 ^ !x_e,3) v (x_l,2 ^ !x_e,3 ^ !x_e,2) v
         // (x_l,1 ^ !x_e,3 ^ !x_e,2 ^ !x_e,1)
-        // <~> (it is already assumed that each subject is enrolled)
-        // !x_e,3 ^ (!x_e,2 v x_l,3) ^ (!x_e,1 v x_l,3 v x_l,2)
-        for (size_t i = num_of_semesters - 1; i > 0; --i) {
+        // <=>
+        // !x_e,3 ^ (!x_e,2 v x_l,3) ^ (!x_e,1 v x_l,3 v x_l,2) ^
+        // (x_e,3 v x_e,2 v x_e,1)
+
+        // !x_e3
+        Clause *c = create_new_clause(num_of_subjects, num_of_semesters);
+        add_literal_to_clause(
+            c,
+            false,
+            prerequisities[i].earlier_subject,
+            num_of_semesters - 1
+        );
+        add_clause_to_formula(c, formula);
+
+        // (x_e3 v x_e,2 v x_e,1)
+        Clause *l = create_new_clause(num_of_subjects, num_of_semesters);
+        add_literal_to_clause(
+            l,
+            true,
+            prerequisities[i].later_subject,
+            num_of_semesters - 1
+        );
+        for (long i = (long)num_of_semesters - 2; i > 0; --i) {
+            // (!x_e,2 v x_l,3) ^ (!x_e,1 v x_l,3 v x_l,2)
             Clause *c = create_new_clause(num_of_subjects, num_of_semesters);
             add_literal_to_clause(
                 c,
@@ -129,6 +151,9 @@ void add_prerequisities_to_formula(
                 );
             }
             add_clause_to_formula(c, formula);
+
+            add_literal_to_clause(l, true, prerequisities[i].later_subject, i);
         }
+        add_clause_to_formula(l, formula);
     }
 }
